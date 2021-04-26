@@ -11,7 +11,7 @@
 #
 default: &default
   adapter: mysql2
-  encoding: utf8mb4
+  encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password:
@@ -52,3 +52,29 @@ production:
   database: pictweet5_production
   username: pictweet5
   password: <%= ENV['PICTWEET5_DATABASE_PASSWORD'] %>
+
+
+# database.ymlとは
+# Railsアプリケーションのデータベースの設定ファイルです。
+# ここを編集することで、データベースの設定を運用環境事に変更できる仕組みになっている。
+
+# 運用環境
+# システムをどこで使用するか定められている環境を運用環境と呼びます。
+# 運用環境を使い分けることで、効率的に作業を行うことが可能になり３種類ある。
+
+# development | 開発環境 | 主にアプリケーションを開発をする際に使用する環境
+# test        | テスト環境 | 主にアプリケーションの動作をテストする際に使用する環境
+# production  | 本番環境  | アプリケーションを実際にリリースする際に使用する環境
+
+# このように環境が別れている理由は、環境ごとに設定の変更が必要なケースが多いため、
+
+# RDB,RDBMS 
+# RDBとは表形式でデータを管理するデータベースで行と列を持っている。
+# 行を「レコード」列を「カラム」という。
+# RDBを管理するシステムのことをRDBMSという
+# Mysql
+# RDBMSの１つで、RDBMS各種には大きな差がなく、他にも同じようなRDBMSがあるが
+# Mysqlを採用しているのは下記の理由もある。
+# ・拡張機能が多い
+# ・小規模から大規模のデータも取扱が可能
+# ・柔軟性が高い
