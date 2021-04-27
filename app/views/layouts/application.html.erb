@@ -10,6 +10,42 @@
   </head>
 
   <body>
+    <header class="header">
+      <div class="header__bar row">
+        <h1 class="grid-6"><a href="/">PicTweet</a></h1>
+        <div class="user_nav grid-6">
+          <a class="post" href="/tweets/new">投稿する</a>
+        </div>
+      </div>
+    </header>
     <%= yield %>
+    <footer>
+      <p>
+        Copyright PicTweet 2019.
+      </p>
+    </footer>
   </body>
 </html>
+
+<%# レイアウトテンプレート
+アプリケーションのビューファイルの共通部分(ヘッダーやフッター等)をまとめたものの事
+全てのビューで共通となる部分を記述しておくことで、かくテンプレートファイルは個別の見た目を記述するだけで良くなる。
+Railsはapplication.html.erbファイルが当たる %>
+
+<%# yieldメソッド
+レイアウトテンプレートに、各テンプレートファイルを展開するためのメソッド。
+yieldを記述することで、indexアクションの場合はテンプレートファイルのindex.html.erbの内容がyield記述部分へ展開されるようになる。 %>
+
+<%# stylesheet_link_tagメソッド
+読み込CSSファイルを指定できる「ヘルパーメソッド」です。
+CSSファイルはapp/assets/stylesheets/というディレクトリに配置する。
+
+application.CSSファイル
+Railsに初めから用意されている、CSSファイルをまとめるためのファイル。マニュフェストファイルとも呼ばれている。
+アプリケーション全体に適用するCSSを指定できる。
+*=のような特殊な記法に続けて他のCSSファイルなどを指定すれば、複数のCSSファイルをまとめて読み込むことが可能。
+
+require_tree
+引数として与えられたディレクトリ以下のCSSファイルをアルファベット順に全て読み込むという機能をもつ。
+require_tree .の.(ドット)は、カレントディレクトリを表している。
+この記述によりapp/assets/stylesheets/というディレクトリにあるCSSファイルは全て、application.cssに読み込まれることとなる。 %>
