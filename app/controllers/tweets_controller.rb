@@ -1,4 +1,6 @@
 class TweetsController < ApplicationController
+  before_action :set_tweet, only: [:edit, :show]
+
   def index
     @tweets = Tweet.all
   end
@@ -17,7 +19,6 @@ class TweetsController < ApplicationController
   end
 
   def edit
-    @tweet = Tweet.find(params[:id])
   end
 
   def update
@@ -25,10 +26,18 @@ class TweetsController < ApplicationController
     tweet.update(tweet_params)
   end
 
+  def show
+  end
+
   private
   def tweet_params
     params.require(:tweet).permit(:name, :image, :text)
   end
+
+  def set_tweet
+    @tweet = Tweet.find(params[:id])
+  end
+  
 end
 
 # ストロングパラメーター
@@ -94,3 +103,12 @@ end
 # そのため、誤って呼び出すなどのエラーを事前に防ぐ事ができる。
 # 2.可読性
 # Classの外部から呼び出されるメソッドを探すときに、private以下の部分は目を通さなくて良くなり読みやすくなる。
+
+# before_action
+# コントローラで定義されたアクションが実行される前に、共通の処理を行う事ができる。
+# 書き方は
+# before_action :処理させたいメソッド名
+
+# onlyオプション
+# resourcesと同様にonlyやexceptなどのオプションをしようすることによって、どの
+# アクションの実行前に、処理を実行させるかなど制限が可能
