@@ -6,4 +6,77 @@ class TweetsController < ApplicationController
   def new
     @tweet = Tweet.new
   end
+
+  def create
+    Tweet.create(tweet_params)
+  end
+
+  private
+  def tweet_params
+    params.require(:tweet).permit(:name, :image, :text)
+  end
 end
+
+# ストロングパラメーター
+# 指定したキーをもつパラメーターのみを受け取るように制限するもの。
+# これをしようする理由は、受け取るパラメーターを制限しなければ、使用以外のパラメーターも使われてしまう危険性が発生するためです。
+# この状態だと、意図しないデータの更新をされる可能性が発生する。
+# ストロングパラメーターの定義には、requireとpermitメソッドを組み合わせて使う。
+
+# requireメソッド
+# 送信されたパラメーターの情報をもつparamsが、使用できるメソッド、
+# requireメソッドは、パラメーターからどの情報を取得するか、選択する。
+# ストロングパラメーターとしてしようする場合は、主にモデル名を指定する。
+# params.reiqure(:モデル名) 
+# params[:モデル名]としても同じっ情報を取得できるが、
+# requireを使うことで、「意図しないパラメーターであった場合にエラーとして返す」事ができ、
+# 原因の特定やユーザーにエラーをしますなどの対応が可能。
+# params  #=> 中身は以下の内容
+# {
+#   "utf8" => "✓",
+#   "authenticity_token" => "token",
+#   "モデルA" => {
+#     "image" => "image.jpg",
+#     "text" => "sample text"
+#   },
+#   "commit" => "SEND",
+#   "controller" => "hoges",
+#   "action" => "create"
+# }
+
+# params.require(:モデルA)
+# #=> { "image" => "image.jpg", "text" => "sample text" }
+
+# params[:モデルA]  # 結果は同じだが、もしモデルAが存在しない場合はエラーになってくれない
+# #=> { "image" => "image.jpg", "text" => "sample text" }
+
+# params.require(:commit)  # モデル名以外のキーも指定できる
+# #=> "SEND"
+
+# paramsに入っている値は、リクエストの内容によって様々なので、もしフォームを利用した場合は、
+# 「フォームに紐づくモデルの名前がキーになっておくられる。」
+
+# permitメソッド
+# requireメソッドと同様に、「params」が使用できるメソッドです。
+# permitメソッドをしようすると、取得したいキーを指定でき、指定したキーと値のセットのみを取得します。
+# params.require(:モデル名).permit(:キー名, :キー名, ・・・)
+# permitメソッドでparams.requireの内容からキーを指定すると、それ以外のキーがあっても値を受け付けない。
+# params.require(:post)
+# #=> { "image" => "image.jpg", "text" => "sample text" }
+
+# params.require(:post).permit(:image)  # imageのみを指定（textは取得されない）
+# #=> { "image" => "image.jpg" }
+
+# params.require(:post).permit(:image, :text)  # 指定したパラメーターだけの取得を約束する
+# #=> { "image" => "image.jpg", "text" => "sample text" }
+
+# プライベートメソッド
+# クラス外から呼び出すことのできないメソッドのこと。
+# Rubyでは、privateと記述した以下のコードがプライベートメソッドとなる
+# private # private以下の記述は全てプライベートメソッドになる。
+# メリットは、
+# １.Classの外部から呼ばれたら困るメソッドを隔離
+# メソッドの中には、Classの外部から呼び出されてしまうとエラーを起こすメソッドも存在する。
+# そのため、誤って呼び出すなどのエラーを事前に防ぐ事ができる。
+# 2.可読性
+# Classの外部から呼び出されるメソッドを探すときに、private以下の部分は目を通さなくて良くなり読みやすくなる。
