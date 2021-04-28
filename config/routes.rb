@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root to: 'tweets#index'
-  resources :tweets, only: [:index, :new, :create]
+  resources :tweets, only: [:index, :new, :create, :destroy]
 end
 
 # CRUDとは
@@ -35,3 +35,11 @@ end
 # rails d controllerは、指定したコントローラーを削除するコマンド。
 # 書き方は
 # rails d controller 削除するコントローラー名
+
+# prefix
+# ルーティングのURI Patternに名前をつけて変数化したもので、これにより、
+# URI Patternの代わりにPrefixを用いてパスを表現できる。
+# prefix名_pathと記述を加えることによってURI Patternとして認識される。
+
+# またprefixを用いる前は特定のIDを削除し際場合、"/tweets/#{tweet.id}"と記述していたところを
+# prefixの場合はtweet_path(tweet.id)のように引数として渡す。
