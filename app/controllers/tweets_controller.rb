@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:edit, :show]
-
+  before_action :move_to_index, except: [:index, :show]
   def index
     @tweets = Tweet.all
   end
@@ -36,6 +36,12 @@ class TweetsController < ApplicationController
 
   def set_tweet
     @tweet = Tweet.find(params[:id])
+  end
+
+  def move_to_index
+    unless user_signed_in?
+      redirect_to action: :index
+    end
   end
   
 end
@@ -112,3 +118,24 @@ end
 # onlyオプション
 # resourcesと同様にonlyやexceptなどのオプションをしようすることによって、どの
 # アクションの実行前に、処理を実行させるかなど制限が可能
+
+# リダイレクト
+# 「本来受け取ったパスとは別のパスを転送する」機能のことをリダイレクトという。
+# これを使うと、アクションに処理を持たせたまま、別のパスを記述する事ができる。
+
+# unlessとは
+# ifと同様に、条件式の返り値で条件分岐して処理を実行するRubyの構文。
+# ifはtrueの時unlessはfalseの時にelseまでの処理が実行される。
+# 書き方
+# unless 条件式
+#   # 条件式がfalseの時に実行する処理
+# end
+
+# redirect_toメソッド
+# Railsでリダイレクト処理を行う際に使用するメソッド
+# コントローラーなどでの処理が終わった後、アクションに体操するビューファイルを参照せずに、別のページへリダイレクトされる事ができる。
+# 書き方は
+# redirect_to action: :リダイレクト先となるアクション名
+
+# exceptオプション
+# before_actionで使用できるオプション[除外]という意味がある。
