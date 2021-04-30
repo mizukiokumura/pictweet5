@@ -54,7 +54,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'pry-rails'
-
+gem 'devise'
 # Gemfile
 # アプリケーションで使用するGemの名前とバージョンの情報を記載し、管理するファイル。
 # Gemは他のGemの機能との依存関係で成り立っており、複雑な関係性を持っているため、1つのGemだけをインストールしても
