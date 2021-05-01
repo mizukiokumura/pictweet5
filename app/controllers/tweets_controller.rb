@@ -2,7 +2,7 @@ class TweetsController < ApplicationController
   before_action :set_tweet, only: [:edit, :show]
   before_action :move_to_index, except: [:index, :show]
   def index
-    @tweets = Tweet.all
+    @tweets = Tweet.includes(:user)
   end
 
   def new
@@ -31,9 +31,9 @@ class TweetsController < ApplicationController
 
   private
   def tweet_params
-    params.require(:tweet).permit(:name, :image, :text)
+    params.require(:tweet).permit(:image,:text).merge(user_id: current_user.id)
   end
-
+  
   def set_tweet
     @tweet = Tweet.find(params[:id])
   end
@@ -139,3 +139,20 @@ end
 
 # exceptオプション
 # before_actionで使用できるオプション[除外]という意味がある。
+
+# current_userメソッド
+# deviseをが持っているメソッドで、現在ログインしているユーザーの情報を取得できる。
+
+# mergeメソッド
+# 「ハッシュ」を結合させるときに使用する「Ruby」のメソッド
+# tweet情報のハッシュとuser_idを持つハッシュを結合させる
+# 例)
+# tweet = { name: "たなか", text: "test", image: "test.jpeg" }
+# uid = { user_id: "1" }
+# tweet.merge(uid)
+# => {:name=>"たなか", :text=>"test", :image=>"test.jpeg", :user_id=>"1"}
+
+# テーブルから不要になったカラムの削除方法
+# rails g migration Removeカラム名From削除元テーブル名 削除するカラム:型
+# rails g migration RemoveNameFromTweets name:string
+# rails db:migrate

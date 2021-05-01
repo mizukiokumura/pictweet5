@@ -1,0 +1,15 @@
+<div class="contents row">
+  <p><%= @nickname %>さんの投稿一覧</p>
+  <% @tweets.each do |tweet| %>
+    <div class="content_post" style="background-image: url(<%= tweet.image %>);">
+      <p><%= tweet.text%></p>
+    </div>
+  <% end %>
+</div>
+
+<%# NomethodError: undefined mathod user' for
+このエラーは定義されていないメソッドの呼び出しが行われた時に発生する。今回の場合だと
+「１つのツイート情報が代入されている変数tweet」にuserというメソッドがないよということで
+エラーが起きている。
+つまりツイート情報からユーザー情報を取得しようとした結果、ツイートにuser情報が紐づいていなくてエラーが起こっている
+ため、アソシエーションを組む事が大事。 %>
