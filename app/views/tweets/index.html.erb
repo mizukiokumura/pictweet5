@@ -16,8 +16,13 @@
       </div>
       <p><%= tweet.text%></p>
       <span class="name">
-        <%= tweet.name%>
+          <a href="/users/<%= tweet.user.id %>">
+            <span>投稿者</span><%= tweet.user.nickname %>
+          </a>
       </span>
     </div>
   <%end%>
 </div>
+
+<%# Tweetモデルに対して「belonst_to User」という形でアソシエーションを定義しているので、
+Tweetモデルのインスタンスが入った変数.userと記述すると、インスタンスが属しているUserモデルのインスタンスを取得できる。 %>
