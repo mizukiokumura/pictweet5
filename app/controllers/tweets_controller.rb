@@ -2,7 +2,7 @@ class TweetsController < ApplicationController
   before_action :set_tweet, only: [:edit, :show]
   before_action :move_to_index, except: [:index, :show]
   def index
-    @tweets = Tweet.includes(:user)
+    @tweets = Tweet.includes(:user).order("created_at DESC")
   end
 
   def new
@@ -156,3 +156,12 @@ end
 # rails g migration Removeカラム名From削除元テーブル名 削除するカラム:型
 # rails g migration RemoveNameFromTweets name:string
 # rails db:migrate
+
+# orderメソッド
+# モデルが使用できる、ActiveRecordメソッドの一つで
+# orderメソッドは、テーブルから取得してきた複数のレコード情報を持つインスタンスの「並び順」を変更するメソッド。
+# 引数に、(並び替えの基準となるカラム名 並び順)のように書く
+# インスタンス = モデル名.order("並び替えの基準となるカラム名 並び順" )
+# 並び順は２つあり、
+# ・ASC(昇順) 小さいものから大き物になる。古いものから新しい物になる。
+# ・DESC(降順) ASCの反対
