@@ -1,9 +1,7 @@
 <div class="contents row">
   <p><%= @nickname %>さんの投稿一覧</p>
   <% @tweets.each do |tweet| %>
-    <div class="content_post" style="background-image: url(<%= tweet.image %>);">
-      <p><%= tweet.text%></p>
-    </div>
+    <%= render partial: "tweet/tweet", locals: {tweet: tweet} %>
   <% end %>
 </div>
 
@@ -13,3 +11,5 @@
 エラーが起きている。
 つまりツイート情報からユーザー情報を取得しようとした結果、ツイートにuser情報が紐づいていなくてエラーが起こっている
 ため、アソシエーションを組む事が大事。 %>
+
+<%# partialオプションの"tweet/tweet"という記述はどのディレクトリに所属している、部分ファイルなのかを指定している。 %>

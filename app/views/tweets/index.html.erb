@@ -1,31 +1,26 @@
 <div class="contents row">
   <% @tweets.each do |tweet|%>
-    <div class="content_post" style="background-image: url(<%= tweet.image%>);">
-      <div class="more">
-        <span><%= image_tag 'arrow_top.png' %></span>
-        <ul class="more_list">
-          <li>
-            <%= link_to '詳細', tweet_path(tweet.id), method: :get %>
-          </li>
-          <% if user_signed_in? && current_user.id ==  tweet.user_id %>
-          <li>
-            <%= link_to '編集', edit_tweet_path(tweet.id), method: :get %>
-          </li>
-          <li>
-            <%= link_to '削除', "/tweets/#{tweet.id}", method: :delete %>
-          </li>
-          <% end %>
-        </ul>
-      </div>
-      <p><%= tweet.text%></p>
-      <span class="name">
-          <a href="/users/<%= tweet.user.id %>">
-            <span>投稿者</span><%= tweet.user.nickname %>
-          </a>
-      </span>
-    </div>
+   <%=  render partial: "tweet", locals: {tweet: tweet }%>
   <%end%>
 </div>
 
 <%# Tweetモデルに対して「belogns_to User」という形でアソシエーションを定義しているので、
 Tweetモデルのインスタンスが入った変数.userと記述すると、インスタンスが属しているUserモデルのインスタンスを取得できる。 %>
+
+<%# renderメソッド
+部分テンプレートを呼び出す際に利用するメソッド。
+呼び出す部分テンプレートはpartial(英訳:部分的)というオプションで指定する。
+
+partialオプション
+renderメソッドで使用できるオプション。partialというオプションをつけ、部分テンプレート名を指定する事で、
+該当する部分テンプレートを表示できる。
+書き方れい
+<% render partial: "sample" >
+
+renderメソッドでは、値を渡すためにlocalsというオプションを使用できる。
+localsオプション
+「renderメソッドで使用できる」オプション
+localsというオプションをつけることで、部分テンプレート内でその変数を使えるようになる。
+書き方例
+<% render partial: "sample", lovals: {post: "hello!"} >
+{post: "hello!"}というのは通常の変数で表すと post = "hello!" と書いているのと同じ意味。 %>
