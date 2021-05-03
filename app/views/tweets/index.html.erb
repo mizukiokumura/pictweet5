@@ -6,12 +6,15 @@
         <ul class="more_list">
           <li>
             <%= link_to '詳細', tweet_path(tweet.id), method: :get %>
+          </li>
+          <% if user_signed_in? && current_user.id ==  tweet.user_id %>
           <li>
             <%= link_to '編集', edit_tweet_path(tweet.id), method: :get %>
           </li>
           <li>
             <%= link_to '削除', "/tweets/#{tweet.id}", method: :delete %>
           </li>
+          <% end %>
         </ul>
       </div>
       <p><%= tweet.text%></p>
@@ -24,5 +27,5 @@
   <%end%>
 </div>
 
-<%# Tweetモデルに対して「belonst_to User」という形でアソシエーションを定義しているので、
+<%# Tweetモデルに対して「belogns_to User」という形でアソシエーションを定義しているので、
 Tweetモデルのインスタンスが入った変数.userと記述すると、インスタンスが属しているUserモデルのインスタンスを取得できる。 %>

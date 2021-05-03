@@ -1,5 +1,6 @@
 <div class="contents row">
   <div class="content_post" style="background-image: url(<%= @tweet.image %>);">
+    <% if user_signed_in? && current_user.id == @tweet.user_id %>
     <div class="more">
       <span><%= image_tag 'arrow_top.png'%></span>
       <ul class="more_list">
@@ -11,6 +12,7 @@
         </li>
       </ul>
     </div>
+    <% end %>
     <p><%= @tweet.text %></p>
     <span class="name">
       <a href="/users/<%= @tweet.user.id %> ">
@@ -30,4 +32,10 @@ includesメソッド
 引数に指定された関連モデルを１度のアクセスでまとめて取得できる。
 書き方は
 モデル名.includes(:紐づくモデル名)
-このメソッドによりN + 1問題を解消できる。 %>
+このメソッドによりN + 1問題を解消できる。
+
+<% if user_signed_in? && current_user.id == tweet.user_id>
+と記述することで、現在ログインしているユーザーと「ツイートを投稿したユーザーが同じか否かを判定する事ができる。
+tweet.user_idとして記述ができる理由は、アソシエーションによって成立しているからできる。
+「複数の条件を定義したい」場合は、論理演算子の&&(かつ)を用いる。 %>
+
