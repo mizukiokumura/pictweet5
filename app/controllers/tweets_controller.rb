@@ -27,6 +27,8 @@ class TweetsController < ApplicationController
   end
 
   def show
+    @comment = Comment.new
+    @comments = @tweet.comments.includes(:user)
   end
 
   private
@@ -165,3 +167,8 @@ end
 # 並び順は２つあり、
 # ・ASC(昇順) 小さいものから大き物になる。古いものから新しい物になる。
 # ・DESC(降順) ASCの反対
+
+# tweets/show.html.erbでform_withを使用して、comments#createを実行するリクエストを飛ばしたいので、
+# showにコメントのインスタンスを生成しておく必要がある。
+# tweetテーブルとcommentsテーブルはアソシエーションが組まれているので、@tweet.commentsとすることで、@tweetへ投稿された全ての
+# コメントを取得できる。またN+1問題も発生するので、includesメソッドを使用する。

@@ -20,6 +20,25 @@
       </a>
     </span>
   </div>
+  <div class="container">
+    <% if user_signed_in?%>
+      <%= form_with(model: [@tweet, @comment], local: true) do |form| %>
+        <%= form.text_area :text, placeholder: "コメントする", rows: "2" %>
+        <%= form.submit "SEND" %>
+      <% end %>
+    <% else %>
+      <strong><p>*** コメントの投稿には新規登録/ログインが必要です ***</p></strong>
+    <% end %>
+    <div class="comments">
+      <h4>＜コメント一覧＞</h4>
+      <% @comments.each do |comment| %>
+        <p>
+          <strong><%= link_to comment.user.nickname, "/users/#{comment.user_id}" %>
+          <%= comment.text %>
+        </p>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <%# N + 1 問題
@@ -39,3 +58,6 @@ includesメソッド
 tweet.user_idとして記述ができる理由は、アソシエーションによって成立しているからできる。
 「複数の条件を定義したい」場合は、論理演算子の&&(かつ)を用いる。 %>
 
+<%# @commentsの中身には複数のコメントのレコード情報が入っているので、配列の形をとる。
+そのため、ビューに表示させるためにはeachメソッドを使って、一つ一つレコードに分解して(切り分けて)から表示させる。
+ユーザーのidはcomment.user_idとパスに記述することで、コメントを投稿したユーザーのidをparamsで扱えるようにしている。 %>
