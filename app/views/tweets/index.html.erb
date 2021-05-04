@@ -1,3 +1,7 @@
+<%= form_with(url: search_tweets_path, local: true, method: :get, class: "search-form") do |form| %>
+  <%= form.text_field :keyword, placeholder: "投稿を検索する", class: "search-input" %>
+  <%= form.submit "検索", class: "search-btn" %>
+<% end %>
 <div class="contents row">
   <% @tweets.each do |tweet|%>
    <%=  render partial: "tweet", locals: {tweet: tweet }%>
@@ -24,3 +28,31 @@ localsというオプションをつけることで、部分テンプレート�
 書き方例
 <% render partial: "sample", lovals: {post: "hello!"} >
 {post: "hello!"}というのは通常の変数で表すと post = "hello!" と書いているのと同じ意味。 %>
+
+<%# searchアクションの定義
+collectionとmember
+ルーティングを設定する際に使用できる。
+これを使用すると、生成されるルーティングのURLと実行されるコントローラーを任意にカステムできる。
+collectionはルーティングに:idがつかず、memberは:idがつくという違いがある。
+collection例)
+resources :tweets do
+  collection do
+    get 'search'
+  end
+end
+
+collectionのルーティング
+search_tweets GET  /tweets/search(.:format)
+
+member例)
+resources :tweets do
+  member do
+    get 'search'
+  end
+end
+
+memberのルーティング
+search_tweet GET /tweets/:id/search(.:format)
+今回の検索機能の場合、詳細ページのような:idを指定して特定のページに行く必要はないため、
+collectionを使用してルーティングを設定する。
+ %>

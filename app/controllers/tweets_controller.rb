@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:edit, :show]
-  before_action :move_to_index, except: [:index, :show]
+  before_action :move_to_index, except: [:index, :show, :search]
   def index
     @tweets = Tweet.includes(:user).order("created_at DESC")
   end
@@ -29,6 +29,10 @@ class TweetsController < ApplicationController
   def show
     @comment = Comment.new
     @comments = @tweet.comments.includes(:user)
+  end
+
+  def search
+    @tweets = Tweet.search(params[:keyword])
   end
 
   private
@@ -172,3 +176,12 @@ end
 # showにコメントのインスタンスを生成しておく必要がある。
 # tweetテーブルとcommentsテーブルはアソシエーションが組まれているので、@tweet.commentsとすることで、@tweetへ投稿された全ての
 # コメントを取得できる。またN+1問題も発生するので、includesメソッドを使用する。
+
+# def search
+#   @tweets = Tweet.search(params[:keyword])
+# end
+
+# Tweetモデルに書いたsearchメソッドを呼び出している。
+# searchメソッドの引数にparams[:keyword]と記述して、検索結果を渡している。
+# また、このままでは、未ログイン時に検索をするとトップページへリダイレクトされてしまうので、
+# これを回避するために、move_to_indexのexceptオプションで:searchを追加し除外している。
