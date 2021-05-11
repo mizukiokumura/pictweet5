@@ -6,5 +6,7 @@ class User < ApplicationRecord
 
   has_many :tweets
   has_many :comments
+
+  validates :nickname, presence: true
 end
 

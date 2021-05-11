@@ -31,6 +31,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails', '~> 4.0.0'
 end
 
 group :development do
@@ -62,3 +63,7 @@ gem 'devise'
 
 # Gemfile.lock
 # はbundle installによってインストール済みとなったGemの情報を記録するファイル。
+
+# テスト用gemは group :development, :testというグループに記述する。
+# bundle install後は rails g rspec:installでrspecをインストール
+# その後.rspecに--format documentationと記述、この記述はターミナル上に可視化するための記述。
