@@ -1,16 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  before do
+    @user = FactoryBot.build(:user)
+  end
   describe 'ユーザー新規登録' do
     it 'nicknameが空では登録できない' do
-      user = User.new(nickname: '', email: 'test@example', password: '000000', password_confirmation: '000000')
-      user.valid?
-      expect(user.errors.full_messages).to include("Nickname can't be blank")
+      
+      @user.nickname = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Nickname can't be blank")
     end
     it 'emailが空では登録できない' do
-      user = User.new(nickname: "abe", email: '', password: '000000', password_confirmation: '000000')
-      user.valid?
-      expect(user.errors.full_messages).to include("Email can't be blank")
+      @user.email = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Email can't be blank")
     end
   end
 end
@@ -115,3 +119,27 @@ end
 # さらに、full_messagesの返り値は「配列」であるので、includeマッチャを用いて、配列にどのようなエラーが含まれていれば良いか指定する。
 # nikcnameでpresence: trueに夜エラーが起こるはずであるため、想定するエラ〜メッセージは
 # "Nickname can't be blank"となる。
+
+# 
+# before
+# それぞれのテストコードを実行する前に、セットアップを行うことができます。以下のようなイメージです。
+# require 'rails_helper'
+# RSpec.describe User, type: :model do
+#   before do
+#     # 何かしらの処理
+#   end
+
+#   describe 'X' do
+#     it 'Y' do
+#       # before内の処理が完了してから実行される
+#     end
+#     it 'Z' do
+#       # before内の処理が完了してから実行される
+#     end
+#   end
+# end
+
+# ただし、before内の変数を受け渡す際は、「インスタンス変数(@を付ける)」にする必要がある。
+
+# Faker
+# ランダムな値を生成してくれるGemで、メールアドレス、人名、パスワードなど、さまざまな意図に応じたランダムな値を生成してくれる。

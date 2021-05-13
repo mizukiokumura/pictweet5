@@ -32,6 +32,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 4.0.0'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
@@ -56,6 +58,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'pry-rails'
 gem 'devise'
+
 # Gemfile
 # アプリケーションで使用するGemの名前とバージョンの情報を記載し、管理するファイル。
 # Gemは他のGemの機能との依存関係で成り立っており、複雑な関係性を持っているため、1つのGemだけをインストールしても
@@ -67,3 +70,6 @@ gem 'devise'
 # テスト用gemは group :development, :testというグループに記述する。
 # bundle install後は rails g rspec:installでrspecをインストール
 # その後.rspecに--format documentationと記述、この記述はターミナル上に可視化するための記述。
+
+# FactoryBot
+# インスタンスをまとめることができるGemで、他のファイルであらかじめ各クラスのインスタンスに定める値を設定しておき、各テストコードで使用する。
