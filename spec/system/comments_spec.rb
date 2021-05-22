@@ -8,11 +8,7 @@ RSpec.describe "Comments", type: :system do
 
   it 'ログインしたユーザーはツイート詳細ページでコメント投稿できる' do
     # ログインする
-    visit new_user_session_path
-    fill_in 'Email', with: @tweet.user.email
-    fill_in 'Password', with: @tweet.user.password
-    find('input[name="commit"]').click
-    expect(current_path).to eq(root_path)
+    sign_in(@tweet.user)
     # ツイート詳細ページに遷移する
     visit tweet_path(@tweet)
     # フォームに情報を入力する
@@ -28,3 +24,12 @@ RSpec.describe "Comments", type: :system do
     expect(page).to have_content(@commnet)
   end
 end
+# テストコードをまとめる
+# 同じ処理を繰り返している箇所を確認しよう
+# 結合テストコードを振り返り、特に同じ処理を繰り返しているのはログインのステップです、ログインしている時/していないときを
+# ハンベルするため、記述しないわけにはいかなくなってくる
+# このログインの流れを１つのまとまり。メソッドにまとめてしまう
+# この時に使用するのがサポートモジュール
+
+# サポートモジュール
+# RSpecに用意されている、メソッドなどをまとめる機能
